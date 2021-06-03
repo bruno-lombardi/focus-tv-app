@@ -25,20 +25,5 @@ class Campaign extends Equatable {
   });
 
   @override
-  List<Object> get props => [id];
-
-  factory Campaign.fromJson(Map<String, dynamic> data) {
-    return Campaign(
-      id: data['_id'],
-      isActive: data['isActive'],
-      title: data['title'],
-      company: data['company'],
-      createdAt: DateTime.parse(data['createdAt']),
-      updatedAt: DateTime.parse(data['updatedAt']),
-      startAt: DateTime.parse(data['startAt']),
-      endAt: DateTime.parse(data.containsKey('endAt') ? data['endAt'] : null),
-      deletedAt: DateTime.parse(
-          data.containsKey('deletedAt') ? data['deletedAt'] : null),
-    );
-  }
+  List<Object> get props => [id, company];
 }

@@ -1,0 +1,53 @@
+{
+  "isActive": true,
+  "campaigns": [
+    {
+      "isActive": true,
+      "deletedAt": null,
+      "_id": "60590713f1dd43001d7fefdc",
+      "advertisements": [
+        {
+          "isActive": true,
+          "_id": "60590713f1dd43001d7fefdd",
+          "mediaSource": "https://1drv.ms/v/s!ArbX1JCyxXmcgecBj-DuT7S22Vbj1d",
+          "title": "AD01-9C79C5B290D4D7B6!29569",
+          "activeDays": []
+        }
+      ],
+      "startAt": "2021-03-19T19:48:18.372Z",
+      "title": "AD01.mp4",
+      "company": "60527ae33e6233001d72750d",
+      "createdAt": "2021-03-22T21:07:31.429Z",
+      "updatedAt": "2021-03-22T21:07:31.429Z",
+      "__v": 0
+    },
+    {
+      "isActive": true,
+      "deletedAt": null,
+      "_id": "60590713f1dd43001d7fefcd",
+      "advertisements": [
+        {
+          "isActive": true,
+          "_id": "60590713f1dd43001d7fefdd",
+          "mediaSource": "https://1drv.ms/v/s!ArbX1JCyxXmcgecBj-DuT7S22Vbjd1",
+          "title": "AD02-9C79C5B290D4D7B6!29569",
+          "activeDays": []
+        }
+      ],
+      "startAt": "2021-03-19T19:48:18.372Z",
+      "title": "AD02.mp4",
+      "company": "60527ae33e6233001d72750d",
+      "createdAt": "2021-03-22T21:07:31.429Z",
+      "updatedAt": "2021-03-22T21:07:31.429Z",
+      "__v": 0
+    }
+  ],
+  "deletedAt": null,
+  "_id": "60a6de535a166b22fa895cc5",
+  "macAddress": "D4:AB:CD:C5:F7:B4",
+  "__v": 0,
+  "alias": "TV01",
+  "company": "60527ae33e6233001d72750d",
+  "createdAt": "2021-05-20T22:10:27.782Z",
+  "updatedAt": "2021-05-27T18:35:54.841Z"
+}

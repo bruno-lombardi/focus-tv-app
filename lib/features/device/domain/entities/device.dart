@@ -24,19 +24,4 @@ class Device extends Equatable {
 
   @override
   List<Object> get props => [id, macAddress];
-
-  factory Device.fromJson(Map<String, dynamic> data) {
-    List<Campaign> campaignsList = data.containsKey('campaigns')
-        ? data['campaigns'].map((c) => Campaign.fromJson(c)).toList()
-        : List.empty();
-    return Device(
-        id: data['_id'],
-        macAddress: data['macAddress'],
-        alias: data['alias'],
-        company: data['company'],
-        campaigns: campaignsList,
-        createdAt: DateTime.parse(data['createdAt']),
-        updatedAt: DateTime.parse(data['updatedAt']),
-        isActive: data['isActive']);
-  }
 }
