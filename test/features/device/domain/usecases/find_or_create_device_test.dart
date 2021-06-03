@@ -33,7 +33,7 @@ void main() {
 
   test('should get device by id from repository', () async {
     // arrange
-    when(mockDeviceRepository!.findOrCreateDevice(createDeviceDTO))
+    when(mockDeviceRepository!.findOrCreateDevice(any as CreateDeviceDTO))
         .thenAnswer((_) async => Right(tDevice));
     // act
     final result = await usecase!(Params(createDeviceDTO: createDeviceDTO));

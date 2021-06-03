@@ -31,7 +31,7 @@ void main() {
 
   test('should get device by id from repository', () async {
     // arrange
-    when(mockDeviceRepository!.getDeviceById(tID))
+    when(mockDeviceRepository!.getDeviceById(any as String))
         .thenAnswer((_) async => Right(tDevice));
     // act
     final result = await usecase!(Params(id: tID));
