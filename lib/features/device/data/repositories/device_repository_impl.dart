@@ -2,6 +2,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:focus_tv_app/core/error/exception.dart';
 import 'package:focus_tv_app/features/device/data/datasources/device_remote_data_source.dart';
+import 'package:focus_tv_app/features/device/data/models/device_dto_model.dart';
 import 'package:focus_tv_app/features/device/domain/entities/device_dto.dart';
 import 'package:focus_tv_app/features/device/domain/entities/device.dart';
 import 'package:focus_tv_app/core/error/failure.dart';
@@ -18,7 +19,10 @@ class DeviceRepositoryImpl extends DeviceRepository {
   Future<Either<Failure, Device>> findOrCreateDevice(
       CreateDeviceDTO createDeviceDTO) async {
     return await _getDevice(() async {
-      return remoteDataSource.findOrCreateDevice(createDeviceDTO);
+      return remoteDataSource.findOrCreateDevice(CreateDeviceDTOModel(
+          macAddress: createDeviceDTO.macAddress,
+          alias: createDeviceDTO.alias,
+          isActive: createDeviceDTO.isActive));
     });
   }
 

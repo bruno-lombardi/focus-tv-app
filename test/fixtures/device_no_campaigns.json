@@ -1,12 +1,14 @@
 {
-  "isActive": true,
-  "campaigns": [],
-  "deletedAt": null,
-  "_id": "60a6de535a166b22fa895cc5",
-  "macAddress": "D4:AB:CD:C5:F7:B4",
-  "__v": 0,
-  "alias": "TV01",
-  "company": "60527ae33e6233001d72750d",
-  "createdAt": "2021-05-20T22:10:27.782Z",
-  "updatedAt": "2021-05-27T18:35:54.841Z"
+  "device": {
+    "isActive": true,
+    "campaigns": [],
+    "deletedAt": null,
+    "_id": "60a6de535a166b22fa895cc5",
+    "macAddress": "D4:AB:CD:C5:F7:B4",
+    "__v": 0,
+    "alias": "TV01",
+    "company": "60527ae33e6233001d72750d",
+    "createdAt": "2021-05-20T22:10:27.782Z",
+    "updatedAt": "2021-05-27T18:35:54.841Z"
+  }
 }

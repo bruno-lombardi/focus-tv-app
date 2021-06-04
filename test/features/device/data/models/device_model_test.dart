@@ -24,7 +24,7 @@ void main() {
     test('should return a valid model when having a list of campaigns',
         () async {
       final Map<String, dynamic> jsonMap = json.decode(fixture('device.json'));
-      final result = DeviceModel.fromJson(jsonMap);
+      final result = DeviceModel.fromJson(jsonMap['device']);
 
       expect(result.id, tDeviceModel.id);
       expect(result.alias, tDeviceModel.alias);
@@ -40,9 +40,9 @@ void main() {
         // assert
         final Map<String, dynamic> expectedJsonMap =
             json.decode(fixture('device.json'));
-        expect(result['id'], expectedJsonMap['id']);
-        expect(result['alias'], expectedJsonMap['alias']);
-        expect(result['createdAt'], expectedJsonMap['createdAt']);
+        expect(result['id'], expectedJsonMap['device']['id']);
+        expect(result['alias'], expectedJsonMap['device']['alias']);
+        expect(result['createdAt'], expectedJsonMap['device']['createdAt']);
       },
     );
   });
