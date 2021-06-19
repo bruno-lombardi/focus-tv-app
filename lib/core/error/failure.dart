@@ -11,3 +11,11 @@ abstract class Failure extends Equatable {
 class ServerFailure extends Failure {}
 
 class DeviceInfoFailure extends Failure {}
+
+class DeviceNotFoundFailure extends Failure {
+  final String message;
+  DeviceNotFoundFailure({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

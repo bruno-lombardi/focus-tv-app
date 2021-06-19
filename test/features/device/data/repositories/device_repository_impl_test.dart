@@ -50,13 +50,26 @@ void main() {
     });
 
     test(
-        'should return server failure when the call to remote data is unsucessful',
+        'should return ServerFailure when the call to remote data is unsucessful',
         () async {
       when(mockRemoteDataSource!.getDeviceById(any as String))
-          .thenThrow(ServerException());
+          .thenThrow(ServerException(statusCode: 500, code: 'server.error'));
       final result = await repository!.getDeviceById(tID);
       verify(mockRemoteDataSource!.getDeviceById(tID));
       expect(result, equals(Left(ServerFailure())));
+    });
+    test(
+        'should return DeviceNotFoundFailure when the call to remote data returns 404',
+        () async {
+      when(mockRemoteDataSource!.getDeviceById(any as String)).thenThrow(
+          ServerException(
+              statusCode: 404,
+              code: 'device.notfound',
+              message: 'Device not found'));
+      final result = await repository!.getDeviceById(tID);
+      verify(mockRemoteDataSource!.getDeviceById(tID));
+      expect(result,
+          equals(Left(DeviceNotFoundFailure(message: 'Device not found'))));
     });
   });
   group('findOrCreateDevice', () {
@@ -77,7 +90,7 @@ void main() {
         () async {
       when(mockRemoteDataSource!
               .findOrCreateDevice(any as CreateDeviceDTOModel))
-          .thenThrow(ServerException());
+          .thenThrow(ServerException(statusCode: 400, code: 'bad.request'));
       final result = await repository!.findOrCreateDevice(createDeviceDTO);
       verify(mockRemoteDataSource!.findOrCreateDevice(createDeviceDTO));
       expect(result, equals(Left(ServerFailure())));

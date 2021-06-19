@@ -38,7 +38,10 @@ class DeviceRepositoryImpl extends DeviceRepository {
     try {
       final deviceModel = await findOrGetDevice();
       return Right(deviceModel);
-    } on ServerException {
+    } on ServerException catch (ex) {
+      if (ex.statusCode == 404) {
+        return Left(DeviceNotFoundFailure(message: ex.message));
+      }
       return Left(ServerFailure());
     }
   }

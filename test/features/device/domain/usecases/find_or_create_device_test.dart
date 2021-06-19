@@ -42,4 +42,16 @@ void main() {
     verify(mockDeviceRepository!.findOrCreateDevice(createDeviceDTO));
     verifyNoMoreInteractions(mockDeviceRepository);
   });
+
+  test('should throw DeviceFailure if device is not found', () async {
+    // arrange
+    when(mockDeviceRepository!.findOrCreateDevice(any as CreateDeviceDTO))
+        .thenAnswer((_) async => Right(tDevice));
+    // act
+    final result = await usecase!(Params(createDeviceDTO: createDeviceDTO));
+    // assert
+    expect(result, Right(tDevice));
+    verify(mockDeviceRepository!.findOrCreateDevice(createDeviceDTO));
+    verifyNoMoreInteractions(mockDeviceRepository);
+  });
 }

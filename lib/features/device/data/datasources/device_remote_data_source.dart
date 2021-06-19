@@ -38,11 +38,13 @@ class DeviceRemoteDataSourceImpl implements DeviceRemoteDataSource {
   Future<DeviceModel> _getDeviceFromRequest(
       Future<http.Response> Function() request) async {
     final response = await request();
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode >= 200 && response.statusCode <= 206) {
       final body = json.decode(response.body);
       return DeviceModel.fromJson(body['device']);
     } else {
-      throw ServerException();
+      final body = json.decode(response.body);
+      var exception = ServerException.fromJson(body);
+      throw exception;
     }
   }
 }
