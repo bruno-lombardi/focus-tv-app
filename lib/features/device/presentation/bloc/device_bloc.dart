@@ -6,7 +6,8 @@ import 'package:equatable/equatable.dart';
 import 'package:focus_tv_app/core/error/failure.dart';
 import 'package:focus_tv_app/features/device/domain/entities/device.dart';
 import 'package:focus_tv_app/features/device/domain/entities/device_dto.dart';
-import 'package:focus_tv_app/features/device/domain/usecases/find_or_create_device.dart';
+import 'package:focus_tv_app/features/device/domain/usecases/find_or_create_device.dart'
+    as FOCD;
 import 'package:focus_tv_app/features/device/domain/usecases/get_device_by_id.dart'
     as GDBI;
 import 'package:meta/meta.dart';
@@ -16,7 +17,7 @@ part 'device_state.dart';
 
 class DeviceBloc extends Bloc<DeviceEvent, DeviceState> {
   final GDBI.GetDeviceById getDeviceById;
-  final FindOrCreateDevice findOrCreateDevice;
+  final FOCD.FindOrCreateDevice findOrCreateDevice;
 
   DeviceBloc({required this.getDeviceById, required this.findOrCreateDevice})
       : super();
@@ -28,6 +29,13 @@ class DeviceBloc extends Bloc<DeviceEvent, DeviceState> {
     if (event is GetDeviceByIdEvent) {
       yield DeviceLoading();
       final failureOrDevice = await getDeviceById(GDBI.Params(id: event.id));
+      yield failureOrDevice.fold(
+          (failure) => DeviceError(message: _mapFailureToErrorMessage(failure)),
+          (device) => DeviceLoaded(device: device));
+    } else if (event is FindOrCreateDeviceEvent) {
+      yield DeviceLoading();
+      final failureOrDevice = await findOrCreateDevice(
+          FOCD.Params(createDeviceDTO: event.createDeviceDTO));
       yield failureOrDevice.fold(
           (failure) => DeviceError(message: _mapFailureToErrorMessage(failure)),
           (device) => DeviceLoaded(device: device));
