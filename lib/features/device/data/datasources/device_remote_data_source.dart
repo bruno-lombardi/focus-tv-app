@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:focus_tv_app/core/error/exception.dart';
 import 'package:focus_tv_app/features/device/data/models/device_dto_model.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
 import 'package:focus_tv_app/features/device/data/models/device_model.dart';
-import 'package:focus_tv_app/features/device/domain/entities/device_dto.dart';
 
 abstract class DeviceRemoteDataSource {
   Future<DeviceModel> getDeviceById(String id);

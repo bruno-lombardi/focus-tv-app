@@ -1,7 +1,8 @@
 import 'dart:async';
 
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:bloc/bloc.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:focus_tv_app/core/error/failure.dart';
 import 'package:focus_tv_app/features/device/domain/entities/device.dart';
@@ -20,7 +21,7 @@ class DeviceBloc extends Bloc<DeviceEvent, DeviceState> {
   final FOCD.FindOrCreateDevice findOrCreateDevice;
 
   DeviceBloc({required this.getDeviceById, required this.findOrCreateDevice})
-      : super();
+      : super(DeviceInitial());
 
   @override
   Stream<DeviceState> mapEventToState(
@@ -29,17 +30,22 @@ class DeviceBloc extends Bloc<DeviceEvent, DeviceState> {
     if (event is GetDeviceByIdEvent) {
       yield DeviceLoading();
       final failureOrDevice = await getDeviceById(GDBI.Params(id: event.id));
-      yield failureOrDevice.fold(
-          (failure) => DeviceError(message: _mapFailureToErrorMessage(failure)),
-          (device) => DeviceLoaded(device: device));
+      yield* _eitherLoadedOrErrorState(failureOrDevice);
     } else if (event is FindOrCreateDeviceEvent) {
       yield DeviceLoading();
       final failureOrDevice = await findOrCreateDevice(
           FOCD.Params(createDeviceDTO: event.createDeviceDTO));
-      yield failureOrDevice.fold(
-          (failure) => DeviceError(message: _mapFailureToErrorMessage(failure)),
-          (device) => DeviceLoaded(device: device));
+      yield* _eitherLoadedOrErrorState(failureOrDevice);
     }
+  }
+
+  Stream<DeviceState> _eitherLoadedOrErrorState(
+    Either<Failure, Device> either,
+  ) async* {
+    yield either.fold(
+      (failure) => DeviceError(message: _mapFailureToErrorMessage(failure)),
+      (device) => DeviceLoaded(device: device),
+    );
   }
 
   String _mapFailureToErrorMessage(Failure failure) {
@@ -52,7 +58,4 @@ class DeviceBloc extends Bloc<DeviceEvent, DeviceState> {
         return 'Unexpected error';
     }
   }
-
-  @override
-  DeviceState get initialState => DeviceInitial();
 }

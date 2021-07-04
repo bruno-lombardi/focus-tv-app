@@ -30,7 +30,7 @@ void main() {
   });
 
   test('should initialize with device initial state', () {
-    expect(bloc!.initialState, equals(DeviceInitial()));
+    expect(bloc!.state, equals(DeviceInitial()));
   });
 
   group('getDeviceById usecase', () {
@@ -49,7 +49,7 @@ void main() {
       when(getDeviceById!(any as GDBI.Params))
           .thenAnswer((_) async => Right(tDevice));
 
-      bloc!.dispatch(GetDeviceByIdEvent(id: tID));
+      bloc!.add(GetDeviceByIdEvent(id: tID));
       await untilCalled(getDeviceById!(any as GDBI.Params));
 
       verify(getDeviceById!(GDBI.Params(id: tID)));
@@ -61,13 +61,9 @@ void main() {
       when(getDeviceById!(any as GDBI.Params))
           .thenAnswer((_) async => Right(tDevice));
 
-      final expected = [
-        DeviceInitial(),
-        DeviceLoading(),
-        DeviceLoaded(device: tDevice)
-      ];
-      expectLater(bloc!.state, emitsInOrder(expected));
-      bloc!.dispatch(GetDeviceByIdEvent(id: tID));
+      final expected = [DeviceLoading(), DeviceLoaded(device: tDevice)];
+      expectLater(bloc!.stream, emitsInOrder(expected));
+      bloc!.add(GetDeviceByIdEvent(id: tID));
     });
 
     test(
@@ -77,12 +73,11 @@ void main() {
           .thenAnswer((_) async => Left(ServerFailure()));
 
       final expected = [
-        DeviceInitial(),
         DeviceLoading(),
         DeviceError(message: SERVER_FAILURE_MESSAGE)
       ];
-      expectLater(bloc!.state, emitsInOrder(expected));
-      bloc!.dispatch(GetDeviceByIdEvent(id: tID));
+      expectLater(bloc!.stream, emitsInOrder(expected));
+      bloc!.add(GetDeviceByIdEvent(id: tID));
     });
     test(
         'should emit [DeviceInitial, DeviceLoading, DeviceError] when device is not found with proper message',
@@ -91,12 +86,11 @@ void main() {
           Left(DeviceNotFoundFailure(message: DEVICE_NOT_FOUND_MESSAGE)));
 
       final expected = [
-        DeviceInitial(),
         DeviceLoading(),
         DeviceError(message: DEVICE_NOT_FOUND_MESSAGE)
       ];
-      expectLater(bloc!.state, emitsInOrder(expected));
-      bloc!.dispatch(GetDeviceByIdEvent(id: tID));
+      expectLater(bloc!.stream, emitsInOrder(expected));
+      bloc!.add(GetDeviceByIdEvent(id: tID));
     });
   });
 
@@ -117,8 +111,7 @@ void main() {
       when(findOrCreateDevice!(any as FOCD.Params))
           .thenAnswer((_) async => Right(tDevice));
 
-      bloc!
-          .dispatch(FindOrCreateDeviceEvent(createDeviceDTO: tCreateDeviceDto));
+      bloc!.add(FindOrCreateDeviceEvent(createDeviceDTO: tCreateDeviceDto));
       await untilCalled(findOrCreateDevice!(any as FOCD.Params));
 
       verify(
@@ -131,14 +124,9 @@ void main() {
       when(findOrCreateDevice!(any as FOCD.Params))
           .thenAnswer((_) async => Right(tDevice));
 
-      final expected = [
-        DeviceInitial(),
-        DeviceLoading(),
-        DeviceLoaded(device: tDevice)
-      ];
-      expectLater(bloc!.state, emitsInOrder(expected));
-      bloc!
-          .dispatch(FindOrCreateDeviceEvent(createDeviceDTO: tCreateDeviceDto));
+      final expected = [DeviceLoading(), DeviceLoaded(device: tDevice)];
+      expectLater(bloc!.stream, emitsInOrder(expected));
+      bloc!.add(FindOrCreateDeviceEvent(createDeviceDTO: tCreateDeviceDto));
     });
 
     test(
@@ -148,13 +136,11 @@ void main() {
           .thenAnswer((_) async => Left(ServerFailure()));
 
       final expected = [
-        DeviceInitial(),
         DeviceLoading(),
         DeviceError(message: SERVER_FAILURE_MESSAGE)
       ];
-      expectLater(bloc!.state, emitsInOrder(expected));
-      bloc!
-          .dispatch(FindOrCreateDeviceEvent(createDeviceDTO: tCreateDeviceDto));
+      expectLater(bloc!.stream, emitsInOrder(expected));
+      bloc!.add(FindOrCreateDeviceEvent(createDeviceDTO: tCreateDeviceDto));
     });
     test(
         'should emit [DeviceInitial, DeviceLoading, DeviceError] when device is not found with proper message',
@@ -163,13 +149,11 @@ void main() {
           Left(DeviceNotFoundFailure(message: DEVICE_NOT_FOUND_MESSAGE)));
 
       final expected = [
-        DeviceInitial(),
         DeviceLoading(),
         DeviceError(message: DEVICE_NOT_FOUND_MESSAGE)
       ];
-      expectLater(bloc!.state, emitsInOrder(expected));
-      bloc!
-          .dispatch(FindOrCreateDeviceEvent(createDeviceDTO: tCreateDeviceDto));
+      expectLater(bloc!.stream, emitsInOrder(expected));
+      bloc!.add(FindOrCreateDeviceEvent(createDeviceDTO: tCreateDeviceDto));
     });
   });
 }
